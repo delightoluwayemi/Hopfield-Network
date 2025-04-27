@@ -25,15 +25,18 @@ class Hopfield_Network:
 
     def update_network_state(self, state):
         self.state = state
-        index = rd.randint(0, len(self.state)-1)
-        activation = np.dot(self.state, self.weight[:, index])
-        self.state[index] = self.updating_rule(activation) #new state of the neuron under consideration
-        print ("The state of the network is:")
-        print (self.state )
-        self.update_energy()
-        print ("The energy of the network is:")
-        print (self.energy )
-
+        final_state = False
+        while final_state == False:
+            node = rd.randint(0, len(self.state)-1)
+            activation = np.dot(self.state, self.weight[:, node])
+            self.state[node] = self.updating_rule(activation) #new state of the neuron under consideration
+            print ("The state of the network is:", self.state)
+            self.update_energy()
+            print ("The energy of the network is:", self.energy)
+            for index in self.patterns_array:
+                if all(self.state == index):
+                    final_state = True
+    
     def get_pattern_count(self):
         return self.pattern_count
     
@@ -46,14 +49,10 @@ class Hopfield_Network:
 
 if __name__ == "__main__":
 
-    input= [[1,-1,-1,1], [1,1,-1,-1]]
-    state = [1,-1,1,-1]
+    input= [[1,-1,-1,1]]
+    state = [1,-1,-1,-1]
     node_count = len(state)
     sample_net = Hopfield_Network(node_count, input)
     energy = sample_net.update_energy()
     sample_net.train_network()
-    count = 5
-    while (count >0):
-        sample_net.update_network_state(state)
-        count -=1
-
+    sample_net.update_network_state(state)

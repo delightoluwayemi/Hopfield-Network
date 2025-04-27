@@ -1,0 +1,1 @@
+non_bipolar_array
