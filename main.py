@@ -25,7 +25,7 @@ def get_input(directory_name):
 if __name__ == "__main__":
 
     input= get_input("resources/patterns")
-    states = get_input("resources/states/slightly_distorted_states")
+    states = get_input("resources/states/very_distorted_states")
     state = states[2]
     node_count = len(state)
     sample_net = Hopfield_Network(node_count, input)

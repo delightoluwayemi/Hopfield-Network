@@ -1,3 +1,3 @@
 python3 -m venv venv
 source venv/bin/activate
-python hopfield_Network.py
+python main.py
