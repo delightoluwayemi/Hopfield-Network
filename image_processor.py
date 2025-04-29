@@ -23,22 +23,9 @@ class image_processor:
             for column in range(self.width):
                 self.image_config[row, column] = self.input_image.getpixel((column, row))
         
-    #plot the image
-    def plot_image(self):
-        image = self.bipolar_array.reshape(self.height,self.width)
-        for row in range(self.height):
-            for column in range(self.width):
-                if image[row, column] == 1:
-                    plotter.plot(column, row, 'x')
-                else:
-                    plotter.plot(column, row, 'o')
-        plotter.gca().invert_yaxis()
-        plotter.show()
-
     #convert the multidimensional array to a 1D array
     def compress_array(self):
         self.non_bipolar_array = self.image_config.reshape(self.width*self.height,3)
-        print(self.non_bipolar_array)
 
     #convert the 1D array to bipolar values
     def bipolar_conversion(self):
@@ -48,14 +35,16 @@ class image_processor:
             else:
                 self.bipolar_array[index] = -1
         print(self.bipolar_array)
+        return self.bipolar_array
 
     #revert the bipolar image to a 1D array of dicts
     def bipolar_reversion(self):
         for index in self.bipolar_array:
             if index == 1:
-                self.non_bipolar_array[index] = self.black
+                self.non_bipolar_array[index] = self.color1
             else:
-                self.non_bipolar_array[index] = self.white
+                self.non_bipolar_array[index] = self.color2
+        print(self.non_bipolar_array)
 
     #conver the reverted 1D array to a multidimensional array
     def expand_array(self):
@@ -66,11 +55,17 @@ class image_processor:
     def adjust_image(self):
         pass
 
-if __name__ == "__main__":
+   #plot the image
+    def plot_image(self, image_map):
+        image = image_map.reshape(self.height,self.width)
+        for row in range(self.height):
+            for column in range(self.width):
+                if image[row, column] == 1:
+                    plotter.plot(column, row, marker='o', color='black')
+                else:
+                    plotter.plot(column, row, marker='o', color='gold')
+        plotter.gca().invert_yaxis()
+        plotter.show()
 
-    new_image = image_processor("resources/patterns/pattern4_64x64.png")
-    new_image.process_image()
-    new_image.compress_array()
-    new_image.bipolar_conversion()
-    new_image.plot_image()
+
     
