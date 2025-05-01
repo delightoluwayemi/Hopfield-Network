@@ -17,8 +17,6 @@ class Hopfield_Network:
             self.weight= self.weight + (np.outer(index,index))/self.pattern_size
             
         np.fill_diagonal(self.weight, 0) #set diagonal of the matrix to zero
-        print ("The weight of the network is:")
-        print (self.weight)
 
     def updating_rule(self, n):
         return 1 if (n>0) else -1
